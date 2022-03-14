@@ -1,3 +1,5 @@
+'use strict'
+
 const getRandomArbitrary = (min, max) => {
   if (min < 0 || max < 0 ) {
     return -1;
