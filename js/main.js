@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const DESCRIPTIONS = [
   'Безжизненная база',
@@ -69,10 +69,10 @@ const COMMENTS_IDS_COUNT = 100;
 const Likes = {
   MIN: 15,
   MAX: 200,
-}
+};
 
 const getRandomArbitrary = (min, max) => {
-  if (min < 0 || max < 0 ) {
+  if (min < 0 || max < 0) {
     return -1;
   }
 
@@ -90,41 +90,40 @@ const getRandomArbitrary = (min, max) => {
 //   return text.length <= maxLength
 // };
 
-const getRandomNumbersArray =  (arrayLength) => {
+const getRandomNumbersArray = (arrayLength) => {
   let result = [];
   let randNumb;
-  for (let i = arrayLength; i > 0; i--){
+  for (let i = arrayLength; i > 0; i--) {
     do {
-      randNumb = Math.floor(Math.random() * arrayLength + 1)
-    } while  (result.some((value) => {
-      return value === randNumb
-    }));
-    result.push(randNumb)
-
+      randNumb = Math.floor(Math.random() * arrayLength + 1);
+    } while (
+      result.some((value) => {
+        return value === randNumb;
+      })
+    );
+    result.push(randNumb);
   }
   return result;
-}
+};
 
-
-
-const createComment = ( usernames, comments, commentsIdsArray) => {
+const createComment = (usernames, comments, commentsIdsArray) => {
   let comment = {
     id: commentsIdsArray.pop(),
     avatar: `img/avatar-${getRandomArbitrary(1, MAX_AVATARS)}.svg`,
     message: comments[getRandomArbitrary(0, comments.length - 1)],
     name: usernames[getRandomArbitrary(0, usernames.length - 1)],
-  }
-  return comment
-}
+  };
+  return comment;
+};
 
 const createCommentsArray = (maxCommentsNumber, commentsIdsArray) => {
   let randLength = getRandomArbitrary(0, maxCommentsNumber);
   let result = [];
-  for (let i = 0; i <= randLength; i++){
-    result.push(createComment(USER_NAMES, COMMENTS, commentsIdsArray))
+  for (let i = 0; i <= randLength; i++) {
+    result.push(createComment(USER_NAMES, COMMENTS, commentsIdsArray));
   }
-  return result
-}
+  return result;
+};
 
 const createPhotoArray = (arrayLength, descriptions) => {
   let randNumbersArr = getRandomNumbersArray(arrayLength);
@@ -138,12 +137,9 @@ const createPhotoArray = (arrayLength, descriptions) => {
       description: descriptions[randNumbersArr2[idx]],
       likes: getRandomArbitrary(Likes.MIN, Likes.MAX),
       comments: createCommentsArray(MAX_COMMENTS_IN_PHOTO, commentsIdsArray),
-    }
-  })
-  return result
-}
-
+    };
+  });
+  return result;
+};
 
 createPhotoArray(ARRAY_LENGTH, DESCRIPTIONS, USER_NAMES, COMMENTS);
-
-
