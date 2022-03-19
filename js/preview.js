@@ -1,4 +1,5 @@
 import { createPhotoArray } from './data.js';
+import { photoClickHandler } from './photo-zoom.js';
 
 const photoDataArray = createPhotoArray();
 const photoTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -12,6 +13,7 @@ const createPhoto = (photoData, template) => {
   img.src = photoData.url;
   commentsNumber.textContent = photoData.comments.length;
   likes.textContent = photoData.likes;
+  newPhoto.addEventListener('click', photoClickHandler(newPhoto, photoData));
   return newPhoto;
 };
 
