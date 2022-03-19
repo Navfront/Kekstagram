@@ -1,3 +1,4 @@
-import { createPhotoArray } from './data.js';
+import { renderPhotos } from './preview.js';
 
-createPhotoArray();
+const picturesBlock = document.querySelector('.pictures');
+renderPhotos(picturesBlock);
