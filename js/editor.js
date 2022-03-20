@@ -1,5 +1,12 @@
 import { openModal } from './modal.js';
 
+const photoParams = {
+  currentScale: 1,
+  filter: 'none',
+  units: '',
+  value: 1,
+};
+
 const editorModal = document.querySelector('.img-upload__overlay');
 const sliderLayout = editorModal.querySelector('.effect-level');
 const slider = sliderLayout.querySelector('.effect-level__slider');
@@ -18,81 +25,130 @@ const uploadInputHandler = (evt) => {
   editor();
 };
 
-const chooseEffect = () => {
+const stylePhoto = (photo, photoParams) => {
+  photo.style = `filter:${photoParams.filter}(${photoParams.value}${photoParams.units}); transform: scale(${photoParams.currentScale})`;
+};
+
+const chooseEffect = (photoParams) => {
   return (evt) => {
     switch (evt.target.value) {
       case 'chrome':
-        showSlider(slider);
-        photo.style = 'filter: grayscale(1)';
+        photoParams.filter = 'chrome';
+        showSlider(slider).noUiSlider.on('update', (value) => {
+          photoParams.value = value[0];
+          photoParams.filter = 'grayscale';
+          photoParams.units = '';
+          stylePhoto(photo, photoParams);
+        });
+        break;
+
+      case 'sepia':
+        photoParams.filter = 'sepia';
+        showSlider(slider).noUiSlider.on('update', (value) => {
+          photoParams.value = value[0];
+          photoParams.filter = 'sepia';
+          photoParams.units = '';
+          stylePhoto(photo, photoParams);
+        });
+        break;
+
+      case 'marvin':
+        photoParams.filter = 'marvin';
+        showSlider(slider, 0, 100, 1).noUiSlider.on('update', (value) => {
+          photoParams.value = value[0];
+          photoParams.filter = 'invert';
+          photoParams.units = '%';
+          stylePhoto(photo, photoParams);
+        });
+        break;
+
+      case 'phobos':
+        photoParams.filter = 'phobos';
+        showSlider(slider, 0, 3, 0.1).noUiSlider.on('update', (value) => {
+          photoParams.value = value[0];
+          photoParams.filter = 'blur';
+          photoParams.units = 'px';
+          stylePhoto(photo, photoParams);
+        });
+        break;
+
+      case 'heat':
+        photoParams.filter = 'heat';
+        showSlider(slider, 0, 3, 0.1).noUiSlider.on('update', (value) => {
+          photoParams.value = value[0];
+          photoParams.filter = 'brightness';
+          photoParams.units = '';
+          stylePhoto(photo, photoParams);
+        });
         break;
 
       default:
         destroySlider(slider);
+        photo.style = '';
         break;
     }
   };
 };
 
 const initScaleer = (photoParams) => {
-  scaleControlValue.value = `${photoParams.currentScale}%`;
+  scaleControlValue.value = `${photoParams.currentScale * 100}%`;
   scaleControlBigger.addEventListener('click', scaleOnce(true, photoParams));
   scaleControlSmaller.addEventListener('click', scaleOnce(false, photoParams));
-  photo.style = `transform: scale(${photoParams.currentScale / 100})`;
+  stylePhoto(photo, photoParams);
 };
 
 const scaleOnce = (bool, photoParams) => {
   return () => {
     if (bool) {
-      if (photoParams.currentScale <= 75) {
-        photoParams.currentScale += 25;
+      if (photoParams.currentScale <= 0.75) {
+        photoParams.currentScale += 0.25;
       }
-      photo.style = `transform: scale(${photoParams.currentScale / 100})`;
-      scaleControlValue.value = `${photoParams.currentScale}%`;
+      stylePhoto(photo, photoParams);
+      scaleControlValue.value = `${photoParams.currentScale * 100}%`;
     } else {
-      if (photoParams.currentScale >= 50) {
-        photoParams.currentScale -= 25;
+      if (photoParams.currentScale >= 0.5) {
+        photoParams.currentScale -= 0.25;
       }
-      photo.style = `transform: scale(${photoParams.currentScale / 100})`;
-      scaleControlValue.value = `${photoParams.currentScale}%`;
+      stylePhoto(photo, photoParams);
+      scaleControlValue.value = `${photoParams.currentScale * 100}%`;
     }
   };
 };
 
-const addEventsToCollectionElements = (collection) => {
+const addEventsToCollectionElements = (collection, photoParams) => {
   collection.forEach((elem) => {
-    elem.addEventListener('change', chooseEffect());
+    elem.addEventListener('change', chooseEffect(photoParams));
   });
 };
 
 const editor = () => {
-  const photoParams = {
-    currentScale: 100,
-  };
+  stylePhoto(photo, photoParams);
   openModal(editorModal);
   initScaleer(photoParams);
-  addEventsToCollectionElements(radioEffectBtns);
-  chooseEffect();
+  addEventsToCollectionElements(radioEffectBtns, photoParams);
 };
 
-const showSlider = (slider) => {
-  if (slider.innerHTML) {
-    destroySlider(slider);
-  }
+const showSlider = (slider, min = 0, max = 1, step = 0.1) => {
+  destroySlider(slider);
   sliderLayout.classList.remove('hidden');
   noUiSlider.create(slider, {
-    start: 50,
+    start: max,
     connect: true,
+    step,
     range: {
-      min: 0,
-      max: 100,
+      min,
+      max,
     },
   });
 
-  slider.noUiSlider.on('change', () => {});
+  return slider;
 };
 
 const destroySlider = (slider) => {
-  slider.noUiSlider.destroy();
+  if (slider.innerHTML) {
+    slider.noUiSlider.destroy();
+  }
+
   sliderLayout.classList.add('hidden');
 };
 
