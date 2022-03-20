@@ -1,3 +1,8 @@
+const Keys = {
+  ESC: 'Esc',
+  ESCAPE: 'Escape',
+};
+
 const pageBody = document.querySelector('body');
 
 const closeModalHandler = (modal, closeModalBtn) => {
@@ -18,7 +23,7 @@ const openModal = (modal) => {
   closeModalBtn.addEventListener('click', closeModalHandler(modal, closeModalBtn));
 
   pageBody.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
+    if (evt.key === Keys.ESC || evt.key === Keys.ESCAPE) {
       closeModal(modal);
     }
   });

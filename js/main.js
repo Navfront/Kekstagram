@@ -1,9 +1,9 @@
 import { renderPhotos } from './preview.js';
-import { uploadInit } from './uploader.js';
+import { editorInit } from './editor.js';
 
 const uploadInput = document.querySelector('#upload-file');
 
-uploadInit(uploadInput);
+editorInit(uploadInput);
 
 const picturesBlock = document.querySelector('.pictures');
 renderPhotos(picturesBlock);
