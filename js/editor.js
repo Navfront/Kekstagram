@@ -1,12 +1,5 @@
 import { openModal } from './modal.js';
 
-const photoParams = {
-  currentScale: 1,
-  filter: 'none',
-  units: '',
-  value: 1,
-};
-
 const editorModal = document.querySelector('.img-upload__overlay');
 const sliderLayout = editorModal.querySelector('.effect-level');
 const slider = sliderLayout.querySelector('.effect-level__slider');
@@ -122,7 +115,12 @@ const addEventsToCollectionElements = (collection, photoParams) => {
 };
 
 const editor = () => {
-  stylePhoto(photo, photoParams);
+  const photoParams = {
+    currentScale: 1,
+    filter: 'none',
+    units: '',
+    value: 1,
+  };
   openModal(editorModal);
   initScaleer(photoParams);
   addEventsToCollectionElements(radioEffectBtns, photoParams);
