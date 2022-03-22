@@ -1,4 +1,5 @@
 import { openModal } from './modal.js';
+import { validateInputs } from './validation.js';
 
 const editorModal = document.querySelector('.img-upload__overlay');
 const sliderLayout = editorModal.querySelector('.effect-level');
@@ -9,6 +10,9 @@ const photo = editorModal.querySelector('.img-upload__preview > img');
 const scaleControlSmaller = editorModal.querySelector('.scale__control--smaller');
 const scaleControlBigger = editorModal.querySelector('.scale__control--bigger');
 const scaleControlValue = editorModal.querySelector('.scale__control--value');
+const imageUploadForm = document.querySelector('.img-upload__form');
+const hashTagInput = imageUploadForm.querySelector('.text__hashtags');
+const commentInput = imageUploadForm.querySelector('.text__description');
 
 const editorInit = (uploadInput) => {
   uploadInput.addEventListener('change', uploadInputHandler);
@@ -125,6 +129,7 @@ const editor = () => {
   openModal(editorModal);
   initScaleer(photoParams);
   addEventsToCollectionElements(radioEffectBtns, photoParams);
+  validateInputs(hashTagInput, commentInput);
 };
 
 const showSlider = (slider, min = 0, max = 1, step = 0.1) => {

@@ -24,7 +24,7 @@ const openModal = (modal) => {
 
   pageBody.addEventListener('keydown', (evt) => {
     if (evt.key === Keys.ESC || evt.key === Keys.ESCAPE) {
-      closeModal(modal);
+      closeModal(modal, closeModalBtn);
     }
   });
 
