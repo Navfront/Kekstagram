@@ -1,5 +1,5 @@
 import { openModal } from './modal.js';
-import { validateInputs } from './validation.js';
+import { addStopPropagationOnInputs } from './util.js';
 
 const editorModal = document.querySelector('.img-upload__overlay');
 const sliderLayout = editorModal.querySelector('.effect-level');
@@ -23,8 +23,8 @@ const uploadInputHandler = () => {
 };
 
 const stylePhoto = (photo, photoParams) => {
-  effectLevelValue.value = photoParams.value;
   photo.style = `filter:${photoParams.filter}(${photoParams.value}${photoParams.units}); transform: scale(${photoParams.currentScale})`;
+  effectLevelValue.value = photoParams.value;
 };
 
 const chooseEffect = (photoParams) => {
@@ -46,6 +46,7 @@ const chooseEffect = (photoParams) => {
           photoParams.value = value[0];
           photoParams.filter = 'sepia';
           photoParams.units = '';
+
           stylePhoto(photo, photoParams);
         });
         break;
@@ -129,7 +130,7 @@ const editor = () => {
   openModal(editorModal);
   initScaleer(photoParams);
   addEventsToCollectionElements(radioEffectBtns, photoParams);
-  validateInputs(hashTagInput, commentInput);
+  addStopPropagationOnInputs(hashTagInput, commentInput);
 };
 
 const showSlider = (slider, min = 0, max = 1, step = 0.1) => {

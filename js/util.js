@@ -28,4 +28,26 @@ const isStringLengthOk = (text, maxLength) => {
   return text.length <= maxLength;
 };
 
-export { getRandomUniqueNumber, isStringLengthOk, getRandomIntInclusive };
+const addStopPropagationOnInputs = (...inputs) => {
+  inputs.forEach((input) => {
+    input.addEventListener('keydown', (evt) => {
+      if (evt.key === 'Escape' || evt.key === 'Esc') {
+        evt.stopPropagation();
+      }
+    });
+  });
+};
+
+const removeStopPropagationOnInputs = (...inputs) => {
+  inputs.forEach((input) => {
+    input.removeEventListener('keydown', () => {});
+  });
+};
+
+export {
+  getRandomUniqueNumber,
+  isStringLengthOk,
+  getRandomIntInclusive,
+  addStopPropagationOnInputs,
+  removeStopPropagationOnInputs
+};
