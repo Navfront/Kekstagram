@@ -2,6 +2,7 @@ import { openModal } from './modal.js';
 
 const editorModal = document.querySelector('.img-upload__overlay');
 const sliderLayout = editorModal.querySelector('.effect-level');
+const effectLevelValue = editorModal.querySelector('.effect-level__value');
 const slider = sliderLayout.querySelector('.effect-level__slider');
 const radioEffectBtns = editorModal.querySelectorAll('.effects__radio');
 const photo = editorModal.querySelector('.img-upload__preview > img');
@@ -10,15 +11,15 @@ const scaleControlBigger = editorModal.querySelector('.scale__control--bigger');
 const scaleControlValue = editorModal.querySelector('.scale__control--value');
 
 const editorInit = (uploadInput) => {
-  uploadInput.addEventListener('click', uploadInputHandler);
+  uploadInput.addEventListener('change', uploadInputHandler);
 };
 
-const uploadInputHandler = (evt) => {
-  evt.preventDefault();
+const uploadInputHandler = () => {
   editor();
 };
 
 const stylePhoto = (photo, photoParams) => {
+  effectLevelValue.value = photoParams.value;
   photo.style = `filter:${photoParams.filter}(${photoParams.value}${photoParams.units}); transform: scale(${photoParams.currentScale})`;
 };
 
