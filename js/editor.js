@@ -15,10 +15,10 @@ const hashTagInput = imageUploadForm.querySelector('.text__hashtags');
 const commentInput = imageUploadForm.querySelector('.text__description');
 
 const editorInit = (uploadInput) => {
-  uploadInput.addEventListener('change', uploadInputHandler);
+  uploadInput.addEventListener('change', onInputFileUpload);
 };
 
-const uploadInputHandler = () => {
+const onInputFileUpload = () => {
   editor();
 };
 
