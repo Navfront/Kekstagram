@@ -34,8 +34,12 @@ const openModal = (modal) => {
   const closeModalBtn = modal.querySelector('.cancel');
   const hashTagInput = modal.querySelector('.text__hashtags');
   const commentInput = modal.querySelector('.text__description');
-  validate.addValidation(hashTagInput, validate.handleHashTagInput);
-  validate.addValidation(commentInput, validate.handleCommentInput);
+  if (hashTagInput) {
+    validate.addValidation(hashTagInput, validate.handleHashTagInput);
+  }
+  if (commentInput) {
+    validate.addValidation(commentInput, validate.handleCommentInput);
+  }
   closeModalBtn.addEventListener('click', closeModal(modal, closeModalBtn));
   pageBody.addEventListener('keydown', onKeyEscapeDown(modal));
   pageBody.classList.add('modal-open');
